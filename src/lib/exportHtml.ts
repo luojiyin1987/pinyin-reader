@@ -28,17 +28,18 @@ const HIDDEN_LINE_HEIGHTS: Record<ReaderSpacing, string> = {
   relaxed: '2.15',
 };
 
+const HTML_ESCAPES: Record<string, string> = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;',
+};
+
 function escapeHtml(value: string) {
   return value.replace(
     /[&<>"']/g,
-    (character) =>
-      ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#39;',
-      })[character] ?? character,
+    (character) => HTML_ESCAPES[character] ?? character,
   );
 }
 
@@ -135,5 +136,5 @@ export function downloadAnnotatedHtml(options: ExportHtmlOptions) {
   document.body.appendChild(anchor);
   anchor.click();
   anchor.remove();
-  URL.revokeObjectURL(url);
+  setTimeout(() => URL.revokeObjectURL(url), 0);
 }
