@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PinyinText, {
   type PolyphonicSelection,
 } from './components/PinyinText';
@@ -7,6 +7,11 @@ import {
   type ReaderSize,
   type ReaderSpacing,
 } from './lib/exportHtml';
+import {
+  speakChinese,
+  stopChineseSpeech,
+  supportsChineseSpeech,
+} from './lib/speech';
 
 const EXAMPLE_TEXT = '小明今天去了重庆，然后坐地铁去了银行。';
 
@@ -29,11 +34,29 @@ function App() {
   const [readerSpacing, setReaderSpacing] = useState<ReaderSpacing>('comfortable');
   const [selectedPolyphonic, setSelectedPolyphonic] =
     useState<PolyphonicSelection | null>(null);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const speechSupported = supportsChineseSpeech();
+
+  useEffect(() => () => stopChineseSpeech(), []);
 
   const otherPronunciations =
     selectedPolyphonic?.pronunciations.filter(
       (pronunciation) => pronunciation !== selectedPolyphonic.current,
     ) ?? [];
+
+  const stopSpeech = () => {
+    stopChineseSpeech();
+    setIsSpeaking(false);
+  };
+
+  const speakText = (value: string) => {
+    const started = speakChinese(value, {
+      onStart: () => setIsSpeaking(true),
+      onEnd: () => setIsSpeaking(false),
+    });
+
+    setIsSpeaking(started);
+  };
 
   const exportHtml = () => {
     if (!text) return;
@@ -73,6 +96,7 @@ function App() {
             id="source-text"
             value={text}
             onChange={(event) => {
+              stopSpeech();
               setText(event.target.value);
               setSelectedPolyphonic(null);
             }}
@@ -93,6 +117,7 @@ function App() {
               className="button button-ghost"
               type="button"
               onClick={() => {
+                stopSpeech();
                 setText('');
                 setSelectedPolyphonic(null);
               }}
@@ -148,7 +173,24 @@ function App() {
             </fieldset>
           </div>
 
-          <div className="reader-actions" aria-label="保存阅读稿">
+          <div className="reader-actions" aria-label="朗读与保存阅读稿">
+            <button
+              className="button button-secondary button-compact"
+              type="button"
+              onClick={() => speakText(text)}
+              disabled={!text || !speechSupported}
+              title={speechSupported ? undefined : '当前浏览器不支持语音朗读'}
+            >
+              {isSpeaking ? '重新朗读' : '朗读全文'}
+            </button>
+            <button
+              className="button button-ghost button-compact"
+              type="button"
+              onClick={stopSpeech}
+              disabled={!isSpeaking || !speechSupported}
+            >
+              停止
+            </button>
             <button
               className="button button-ghost button-compact"
               type="button"
@@ -168,7 +210,9 @@ function App() {
           </div>
 
           <p className="reader-hint">
-            带下划线的多音字可点击查看所在词语和读音详情。
+            {speechSupported
+              ? '点击普通汉字可试听；带下划线的多音字可查看所在词语和读音详情。'
+              : '当前浏览器不支持语音朗读；带下划线的多音字仍可查看所在词语和读音详情。'}
           </p>
 
           <div
@@ -181,6 +225,7 @@ function App() {
                   showPinyin={showPinyin}
                   selectedIndex={selectedPolyphonic?.index ?? null}
                   onSelectPolyphonic={setSelectedPolyphonic}
+                  onSpeak={speechSupported ? speakText : undefined}
                 />
 
                 {selectedPolyphonic && (
@@ -211,6 +256,21 @@ function App() {
                             </span>
                           </div>
                         </div>
+                      )}
+
+                      {speechSupported && (
+                        <button
+                          className="detail-speech-button"
+                          type="button"
+                          onClick={() =>
+                            speakText(
+                              selectedPolyphonic.context?.word ??
+                                selectedPolyphonic.character,
+                            )
+                          }
+                        >
+                          {selectedPolyphonic.context ? '朗读词语' : '朗读汉字'}
+                        </button>
                       )}
 
                       <p className="detail-label">上下文读音</p>

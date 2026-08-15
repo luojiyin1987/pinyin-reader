@@ -159,7 +159,7 @@ textarea:focus {
   background: #356b4e;
 }
 
-.button-secondary:hover {
+.button-secondary:hover:not(:disabled) {
   background: #2c5d42;
 }
 
@@ -238,6 +238,7 @@ textarea:focus {
 
 .reader-actions {
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-end;
   gap: 8px;
   margin: -6px 0 14px;
@@ -301,6 +302,29 @@ rt {
   font-size: 0.43em;
   font-weight: 620;
   letter-spacing: 0.01em;
+}
+
+.hanzi-speak-trigger {
+  display: inline;
+  border: 0;
+  border-radius: 0.12em;
+  padding: 0 0.02em;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1;
+}
+
+.hanzi-speak-trigger:hover {
+  color: #245c3b;
+  background: #edf5ef;
+}
+
+.hanzi-speak-trigger:focus-visible {
+  outline-width: 2px;
+  outline-offset: 2px;
 }
 
 .polyphonic-trigger {
@@ -415,6 +439,22 @@ rt {
   font-weight: 650;
 }
 
+.detail-speech-button {
+  margin: 12px 0;
+  border: 1px solid #cbdccf;
+  border-radius: 999px;
+  padding: 6px 11px;
+  color: #315e42;
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 680;
+}
+
+.detail-speech-button:hover {
+  background: #e8f1ea;
+}
+
 .detail-note {
   margin: 12px 0 0;
   color: #7a867f;
@@ -500,6 +540,10 @@ footer a {
     justify-content: space-between;
   }
 
+  .reader-actions {
+    justify-content: flex-start;
+  }
+
   .polyphonic-details {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -564,6 +608,7 @@ footer a {
     color: #000000;
   }
 
+  .hanzi-speak-trigger,
   .polyphonic-trigger,
   .polyphonic-trigger[aria-pressed='true'] {
     border: 0;
