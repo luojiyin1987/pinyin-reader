@@ -27,6 +27,7 @@ function PinyinText({
       items: pinyin(text, {
         type: 'all',
         nonZh: 'consecutive',
+        segmentit: 2,
       }),
       wordContexts: getWordContexts(text),
     }),
