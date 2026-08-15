@@ -7,6 +7,7 @@ A lightweight Chinese pinyin annotation reader powered by [pinyin-pro](https://g
 - Paste or type Chinese text and see pinyin annotations instantly
 - Semantic `<ruby>` / `<rt>` markup for pronunciation annotations
 - Toggle pinyin visibility without changing the source text
+- Adjust reading font size and line spacing
 - Clear the editor in one click
 - Runs entirely in the browser; no backend or external API is required
 

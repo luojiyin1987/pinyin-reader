@@ -3,9 +3,26 @@ import PinyinText from './components/PinyinText';
 
 const EXAMPLE_TEXT = '小明今天去了重庆，然后坐地铁去了银行。';
 
+type ReaderSize = 'small' | 'medium' | 'large';
+type ReaderSpacing = 'compact' | 'comfortable' | 'relaxed';
+
+const SIZE_OPTIONS: Array<{ value: ReaderSize; label: string }> = [
+  { value: 'small', label: '小' },
+  { value: 'medium', label: '中' },
+  { value: 'large', label: '大' },
+];
+
+const SPACING_OPTIONS: Array<{ value: ReaderSpacing; label: string }> = [
+  { value: 'compact', label: '紧凑' },
+  { value: 'comfortable', label: '舒适' },
+  { value: 'relaxed', label: '宽松' },
+];
+
 function App() {
   const [text, setText] = useState(EXAMPLE_TEXT);
   const [showPinyin, setShowPinyin] = useState(true);
+  const [readerSize, setReaderSize] = useState<ReaderSize>('medium');
+  const [readerSpacing, setReaderSpacing] = useState<ReaderSpacing>('comfortable');
 
   return (
     <main className="app-shell">
@@ -67,7 +84,46 @@ function App() {
             <span className="local-badge">本地处理</span>
           </div>
 
-          <div className="reader-output" aria-live="polite">
+          <div className="reader-controls" aria-label="阅读设置">
+            <fieldset className="control-group">
+              <legend>字号</legend>
+              <div className="segmented-control">
+                {SIZE_OPTIONS.map((option) => (
+                  <button
+                    key={option.value}
+                    className="segment-button"
+                    type="button"
+                    aria-pressed={readerSize === option.value}
+                    onClick={() => setReaderSize(option.value)}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </fieldset>
+
+            <fieldset className="control-group">
+              <legend>行距</legend>
+              <div className="segmented-control">
+                {SPACING_OPTIONS.map((option) => (
+                  <button
+                    key={option.value}
+                    className="segment-button"
+                    type="button"
+                    aria-pressed={readerSpacing === option.value}
+                    onClick={() => setReaderSpacing(option.value)}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </fieldset>
+          </div>
+
+          <div
+            className={`reader-output reader-size-${readerSize} reader-spacing-${readerSpacing}`}
+            aria-live="polite"
+          >
             {text ? (
               <PinyinText text={text} showPinyin={showPinyin} />
             ) : (
