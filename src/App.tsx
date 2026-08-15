@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import PinyinText, {
   type PolyphonicSelection,
 } from './components/PinyinText';
+import SeoContent from './components/SeoContent';
 import {
   downloadAnnotatedHtml,
   type ReaderSize,
@@ -12,6 +13,7 @@ import {
   stopChineseSpeech,
   supportsChineseSpeech,
 } from './lib/speech';
+import './seo.css';
 
 const EXAMPLE_TEXT = '小明今天去了重庆，然后坐地铁去了银行。';
 
@@ -298,6 +300,8 @@ function App() {
           </div>
         </div>
       </section>
+
+      <SeoContent />
 
       <footer>
         Powered by <a href="https://github.com/zh-lx/pinyin-pro">pinyin-pro</a>
