@@ -14,6 +14,7 @@ interface PinyinTextProps {
   showPinyin: boolean;
   selectedIndex: number | null;
   onSelectPolyphonic: (selection: PolyphonicSelection) => void;
+  onSpeak?: (text: string) => void;
 }
 
 function PinyinText({
@@ -21,6 +22,7 @@ function PinyinText({
   showPinyin,
   selectedIndex,
   onSelectPolyphonic,
+  onSpeak,
 }: PinyinTextProps) {
   const { items, wordContexts } = useMemo(
     () => ({
@@ -76,6 +78,16 @@ function PinyinText({
                     context,
                   })
                 }
+              >
+                {item.origin}
+              </button>
+            ) : onSpeak ? (
+              <button
+                className="hanzi hanzi-speak-trigger"
+                type="button"
+                aria-label={`朗读汉字${item.origin}`}
+                title="点击朗读"
+                onClick={() => onSpeak(item.origin)}
               >
                 {item.origin}
               </button>
