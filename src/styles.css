@@ -177,6 +177,11 @@ textarea:focus {
   opacity: 0.48;
 }
 
+.button-compact {
+  padding: 7px 12px;
+  font-size: 0.82rem;
+}
+
 .reader-controls {
   display: flex;
   flex-wrap: wrap;
@@ -229,6 +234,13 @@ textarea:focus {
   color: #294c38;
   background: #ffffff;
   box-shadow: 0 1px 4px rgba(35, 58, 43, 0.12);
+}
+
+.reader-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin: -6px 0 14px;
 }
 
 .reader-hint {
@@ -497,5 +509,66 @@ footer a {
     width: 52px;
     height: 52px;
     font-size: 1.8rem;
+  }
+}
+
+@media print {
+  @page {
+    margin: 16mm;
+  }
+
+  :root,
+  body {
+    color: #000000;
+    background: #ffffff;
+  }
+
+  .app-shell {
+    width: auto;
+    margin: 0;
+    padding: 0;
+  }
+
+  .hero,
+  .editor-panel,
+  .reader-panel > .panel-header,
+  .reader-controls,
+  .reader-actions,
+  .reader-hint,
+  .polyphonic-details,
+  footer {
+    display: none !important;
+  }
+
+  .workspace {
+    display: block;
+  }
+
+  .reader-panel {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: #ffffff;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .reader-output {
+    min-height: 0;
+    padding: 0;
+    background: #ffffff;
+  }
+
+  .pinyin-text,
+  rt {
+    color: #000000;
+  }
+
+  .polyphonic-trigger,
+  .polyphonic-trigger[aria-pressed='true'] {
+    border: 0;
+    padding: 0;
+    color: inherit;
+    background: transparent;
   }
 }

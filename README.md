@@ -11,6 +11,8 @@ A lightweight Chinese pinyin annotation reader powered by [pinyin-pro](https://g
 - Click polyphonic characters to inspect the contextual pronunciation and alternative readings
 - Use the modern Chinese dictionary from `@pinyin-pro/data` for richer word segmentation and pronunciation context
 - Show the segmented word or phrase around a selected polyphonic character when available
+- Print a clean reading sheet using the current pinyin, font-size, and spacing preferences
+- Export a standalone HTML reading sheet with inline styles and semantic ruby annotations
 - Clear the editor in one click
 - Runs entirely in the browser; no backend or external API is required
 
