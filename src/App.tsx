@@ -170,11 +170,13 @@ function App() {
                     </div>
                     <div className="polyphonic-detail-content">
                       {selectedPolyphonic.context && (
-                        <div className="word-context">
-                          <p className="detail-label">所在词语</p>
-                          <div className="word-context-value">
-                            <strong>{selectedPolyphonic.context.word}</strong>
-                            <span>{selectedPolyphonic.context.pinyin}</span>
+                        <div className="alternative-pronunciations">
+                          <span className="detail-label">所在词语</span>
+                          <div className="pronunciation-list">
+                            <span className="pronunciation-chip">
+                              {selectedPolyphonic.context.word} ·{' '}
+                              {selectedPolyphonic.context.pinyin}
+                            </span>
                           </div>
                         </div>
                       )}
