@@ -12,6 +12,7 @@ export function getWordContexts(text: string): Array<WordContext | null> {
   const groups = segment(text, {
     format: OutputFormat.AllArray,
     nonZh: 'consecutive',
+    segmentit: 2,
   });
 
   return groups.flatMap((group) => {
