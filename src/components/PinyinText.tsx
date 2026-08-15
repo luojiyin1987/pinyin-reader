@@ -1,10 +1,12 @@
-import { pinyin } from 'pinyin-pro';
+import { useMemo } from 'react';
+import { getWordContexts, pinyin, type WordContext } from '../lib/pinyin';
 
 export interface PolyphonicSelection {
   index: number;
   character: string;
   current: string;
   pronunciations: string[];
+  context: WordContext | null;
 }
 
 interface PinyinTextProps {
@@ -20,10 +22,19 @@ function PinyinText({
   selectedIndex,
   onSelectPolyphonic,
 }: PinyinTextProps) {
-  const items = pinyin(text, {
-    type: 'all',
-    nonZh: 'consecutive',
-  });
+  const { items, wordContexts } = useMemo(
+    () => ({
+      items: pinyin(text, {
+        type: 'all',
+        nonZh: 'consecutive',
+        segmentit: 2,
+      }),
+      wordContexts: getWordContexts(text),
+    }),
+    [text],
+  );
+
+  let chineseIndex = 0;
 
   return (
     <p className={`pinyin-text${showPinyin ? '' : ' pinyin-hidden'}`}>
@@ -35,6 +46,9 @@ function PinyinText({
             </span>
           );
         }
+
+        const context = wordContexts[chineseIndex] ?? null;
+        chineseIndex += 1;
 
         const pronunciations = Array.from(new Set(item.polyphonic));
         const isPolyphonic = pronunciations.length > 1;
@@ -49,7 +63,9 @@ function PinyinText({
               <button
                 className="hanzi polyphonic-trigger"
                 type="button"
-                aria-label={`${item.origin}是多音字，当前读音${item.pinyin}，点击查看其他读音`}
+                aria-label={`${item.origin}是多音字，当前读音${item.pinyin}，点击查看其他读音${
+                  context ? `和所在词语${context.word}` : ''
+                }`}
                 aria-pressed={isSelected}
                 onClick={() =>
                   onSelectPolyphonic({
@@ -57,6 +73,7 @@ function PinyinText({
                     character: item.origin,
                     current: item.pinyin,
                     pronunciations,
+                    context,
                   })
                 }
               >

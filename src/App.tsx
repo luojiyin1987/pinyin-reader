@@ -135,7 +135,9 @@ function App() {
             </fieldset>
           </div>
 
-          <p className="reader-hint">带下划线的多音字可点击查看读音详情。</p>
+          <p className="reader-hint">
+            带下划线的多音字可点击查看所在词语和读音详情。
+          </p>
 
           <div
             className={`reader-output reader-size-${readerSize} reader-spacing-${readerSpacing}`}
@@ -167,6 +169,18 @@ function App() {
                       {selectedPolyphonic.character}
                     </div>
                     <div className="polyphonic-detail-content">
+                      {selectedPolyphonic.context && (
+                        <div className="alternative-pronunciations">
+                          <span className="detail-label">所在词语</span>
+                          <div className="pronunciation-list">
+                            <span className="pronunciation-chip">
+                              {selectedPolyphonic.context.word} ·{' '}
+                              {selectedPolyphonic.context.pinyin}
+                            </span>
+                          </div>
+                        </div>
+                      )}
+
                       <p className="detail-label">上下文读音</p>
                       <p className="detail-current">{selectedPolyphonic.current}</p>
                       <div className="alternative-pronunciations">
@@ -180,7 +194,7 @@ function App() {
                         </div>
                       </div>
                       <p className="detail-note">
-                        当前读音根据整句上下文识别；其他读音来自该汉字的候选读音。
+                        词语边界和当前读音使用现代汉语扩展词典结合整句上下文识别。
                       </p>
                     </div>
                   </aside>
