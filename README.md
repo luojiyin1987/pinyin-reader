@@ -8,6 +8,7 @@ A lightweight Chinese pinyin annotation reader powered by [pinyin-pro](https://g
 - Semantic `<ruby>` / `<rt>` markup for pronunciation annotations
 - Toggle pinyin visibility without changing the source text
 - Adjust reading font size and line spacing
+- Click polyphonic characters to inspect the contextual pronunciation and alternative readings
 - Clear the editor in one click
 - Runs entirely in the browser; no backend or external API is required
 
