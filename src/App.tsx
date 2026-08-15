@@ -2,11 +2,13 @@ import { useState } from 'react';
 import PinyinText, {
   type PolyphonicSelection,
 } from './components/PinyinText';
+import {
+  downloadAnnotatedHtml,
+  type ReaderSize,
+  type ReaderSpacing,
+} from './lib/exportHtml';
 
 const EXAMPLE_TEXT = '小明今天去了重庆，然后坐地铁去了银行。';
-
-type ReaderSize = 'small' | 'medium' | 'large';
-type ReaderSpacing = 'compact' | 'comfortable' | 'relaxed';
 
 const SIZE_OPTIONS: Array<{ value: ReaderSize; label: string }> = [
   { value: 'small', label: '小' },
@@ -32,6 +34,17 @@ function App() {
     selectedPolyphonic?.pronunciations.filter(
       (pronunciation) => pronunciation !== selectedPolyphonic.current,
     ) ?? [];
+
+  const exportHtml = () => {
+    if (!text) return;
+
+    downloadAnnotatedHtml({
+      text,
+      showPinyin,
+      readerSize,
+      readerSpacing,
+    });
+  };
 
   return (
     <main className="app-shell">
@@ -133,6 +146,25 @@ function App() {
                 ))}
               </div>
             </fieldset>
+          </div>
+
+          <div className="reader-actions" aria-label="保存阅读稿">
+            <button
+              className="button button-ghost button-compact"
+              type="button"
+              onClick={() => window.print()}
+              disabled={!text}
+            >
+              打印
+            </button>
+            <button
+              className="button button-ghost button-compact"
+              type="button"
+              onClick={exportHtml}
+              disabled={!text}
+            >
+              导出 HTML
+            </button>
           </div>
 
           <p className="reader-hint">
