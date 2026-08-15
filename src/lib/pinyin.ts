@@ -3,8 +3,6 @@ import { addDict, OutputFormat, pinyin, segment } from 'pinyin-pro';
 
 addDict(ModernChineseDict, 'modern');
 
-const HAN_CHARACTER = /\p{Script=Han}/u;
-
 export interface WordContext {
   word: string;
   pinyin: string;
@@ -17,25 +15,30 @@ export function getWordContexts(text: string): Array<WordContext | null> {
   });
 
   return groups.flatMap((group) => {
-    const word = group.map((item) => item.origin).join('');
-    const pronunciation = group.map((item) => item.result).join(' ');
-    const chineseCharacterCount = Array.from(word).filter((character) =>
-      HAN_CHARACTER.test(character),
-    ).length;
+    const firstItem = group[0];
 
-    if (chineseCharacterCount === 0) {
+    if (!firstItem) {
+      return [];
+    }
+
+    const firstItemInfo = pinyin(firstItem.origin, {
+      type: 'all',
+      nonZh: 'consecutive',
+    })[0];
+
+    if (!firstItemInfo?.isZh) {
       return [];
     }
 
     const context: WordContext | null =
-      chineseCharacterCount > 1
+      group.length > 1
         ? {
-            word,
-            pinyin: pronunciation,
+            word: group.map((item) => item.origin).join(''),
+            pinyin: group.map((item) => item.result).join(' '),
           }
         : null;
 
-    return Array.from({ length: chineseCharacterCount }, () => context);
+    return group.map(() => context);
   });
 }
 
