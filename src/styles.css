@@ -1,0 +1,264 @@
+:root {
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #1c2732;
+  background: #f4f6f2;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(222, 235, 214, 0.85), transparent 34rem),
+    #f4f6f2;
+}
+
+button,
+textarea {
+  font: inherit;
+}
+
+button:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+  outline: 3px solid rgba(53, 107, 78, 0.32);
+  outline-offset: 3px;
+}
+
+.app-shell {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 72px 0 40px;
+}
+
+.hero {
+  max-width: 760px;
+  margin-bottom: 36px;
+}
+
+.eyebrow,
+.panel-kicker {
+  margin: 0;
+  color: #50705e;
+  font-size: 0.76rem;
+  font-weight: 750;
+  letter-spacing: 0.15em;
+}
+
+h1 {
+  margin: 10px 0 14px;
+  font-size: clamp(2.4rem, 7vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: -0.055em;
+}
+
+.subtitle {
+  margin: 0;
+  max-width: 650px;
+  color: #65706a;
+  font-size: clamp(1rem, 2vw, 1.16rem);
+  line-height: 1.75;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: 18px;
+}
+
+.panel {
+  min-width: 0;
+  border: 1px solid rgba(33, 55, 43, 0.12);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 22px 55px rgba(38, 58, 46, 0.07);
+  backdrop-filter: blur(14px);
+}
+
+.editor-panel,
+.reader-panel {
+  padding: 26px;
+}
+
+.panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.panel-header h2 {
+  margin: 5px 0 0;
+  font-size: 1.18rem;
+}
+
+.character-count,
+.local-badge {
+  flex: none;
+  color: #6b746f;
+  font-size: 0.82rem;
+}
+
+.local-badge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: #356b4e;
+  background: #e9f4eb;
+  font-weight: 650;
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  min-height: 340px;
+  resize: vertical;
+  border: 1px solid #dce2dc;
+  border-radius: 16px;
+  padding: 18px;
+  color: #1f2923;
+  background: #fbfcfa;
+  font-size: 1.03rem;
+  line-height: 1.8;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+textarea:hover {
+  border-color: #c8d2ca;
+}
+
+textarea:focus {
+  border-color: #86a895;
+  box-shadow: 0 0 0 4px rgba(95, 137, 112, 0.1);
+}
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.button {
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-weight: 680;
+}
+
+.button-secondary {
+  color: #f8fbf8;
+  background: #356b4e;
+}
+
+.button-secondary:hover {
+  background: #2c5d42;
+}
+
+.button-ghost {
+  color: #56615a;
+  background: #edf0ec;
+}
+
+.button-ghost:hover:not(:disabled) {
+  background: #e4e8e3;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+.reader-output {
+  min-height: 394px;
+  border-radius: 16px;
+  padding: 30px 26px;
+  background: #fbfcfa;
+}
+
+.pinyin-text {
+  margin: 0;
+  font-family: "Noto Serif SC", "Songti SC", SimSun, serif;
+  font-size: clamp(1.55rem, 2.8vw, 2.05rem);
+  line-height: 2.35;
+  word-break: break-word;
+}
+
+ruby {
+  margin-inline: 0.08em;
+  ruby-align: center;
+}
+
+rt {
+  color: #50705e;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  font-size: 0.43em;
+  font-weight: 620;
+  letter-spacing: 0.01em;
+}
+
+.pinyin-hidden {
+  line-height: 1.9;
+}
+
+.non-chinese {
+  white-space: pre-wrap;
+}
+
+.empty-state {
+  margin: 0;
+  color: #8a928d;
+  line-height: 1.7;
+}
+
+footer {
+  margin-top: 24px;
+  color: #78817b;
+  font-size: 0.86rem;
+  text-align: center;
+}
+
+footer a {
+  color: #4b6f5a;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 800px) {
+  .app-shell {
+    width: min(100% - 20px, 720px);
+    padding-top: 44px;
+  }
+
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  textarea {
+    min-height: 230px;
+  }
+
+  .reader-output {
+    min-height: 260px;
+  }
+}
