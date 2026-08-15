@@ -34,6 +34,26 @@ Build for production:
 pnpm build
 ```
 
+## Deployment
+
+The production site is configured as a Cloudflare Worker serving Vite's static `dist` output. `wrangler.jsonc` is the source of truth for the Worker name, static assets, and the `pinyin.itea.fit` custom domain.
+
+Authenticate Wrangler once on a development machine:
+
+```bash
+pnpm wrangler login
+```
+
+Then build and deploy:
+
+```bash
+pnpm deploy
+```
+
+The custom domain requires the `itea.fit` zone to be managed by Cloudflare. On the first deployment, `pinyin.itea.fit` must not already have a conflicting CNAME record; Wrangler will attach the Worker as the origin and Cloudflare will manage the DNS record and certificate for the custom domain.
+
+This project has no client-side routes, so unknown paths intentionally use the default static-assets 404 behavior instead of an SPA fallback.
+
 ## Tech stack
 
 - React
@@ -42,6 +62,7 @@ pnpm build
 - pinyin-pro
 - @pinyin-pro/data
 - Web Speech API
+- Cloudflare Workers Static Assets
 
 ## License
 
