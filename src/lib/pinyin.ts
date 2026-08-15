@@ -1,14 +1,32 @@
-import ModernChineseDict from '@pinyin-pro/data/modern';
 import { addDict, OutputFormat, pinyin, segment } from 'pinyin-pro';
-
-addDict(ModernChineseDict, 'modern');
 
 export interface WordContext {
   word: string;
   pinyin: string;
 }
 
-export function getWordContexts(text: string): Array<WordContext | null> {
+let modernDictionaryPromise: Promise<void> | null = null;
+
+async function loadModernDictionary() {
+  if (!modernDictionaryPromise) {
+    modernDictionaryPromise = import('@pinyin-pro/data/modern')
+      .then(({ default: ModernChineseDict }) => {
+        addDict(ModernChineseDict, 'modern');
+      })
+      .catch((error) => {
+        modernDictionaryPromise = null;
+        throw error;
+      });
+  }
+
+  return modernDictionaryPromise;
+}
+
+export async function getWordContexts(
+  text: string,
+): Promise<Array<WordContext | null>> {
+  await loadModernDictionary();
+
   const groups = segment(text, {
     format: OutputFormat.AllArray,
     nonZh: 'consecutive',
