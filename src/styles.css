@@ -177,19 +177,96 @@ textarea:focus {
   opacity: 0.48;
 }
 
+.reader-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: -4px 0 18px;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.control-group legend {
+  float: left;
+  margin-right: 9px;
+  color: #69736d;
+  font-size: 0.78rem;
+  font-weight: 650;
+}
+
+.segmented-control {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 999px;
+  background: #edf0ec;
+}
+
+.segment-button {
+  min-width: 42px;
+  border: 0;
+  border-radius: 999px;
+  padding: 6px 10px;
+  color: #5e6962;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 680;
+}
+
+.segment-button:hover {
+  color: #324c3c;
+}
+
+.segment-button[aria-pressed='true'] {
+  color: #294c38;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(35, 58, 43, 0.12);
+}
+
 .reader-output {
+  --reader-font-size: clamp(1.55rem, 2.8vw, 2.05rem);
+  --reader-line-height: 2.35;
+  --reader-hidden-line-height: 1.9;
+
   min-height: 394px;
   border-radius: 16px;
   padding: 30px 26px;
   background: #fbfcfa;
 }
 
+.reader-size-small {
+  --reader-font-size: clamp(1.3rem, 2.3vw, 1.65rem);
+}
+
+.reader-size-large {
+  --reader-font-size: clamp(1.9rem, 3.4vw, 2.55rem);
+}
+
+.reader-spacing-compact {
+  --reader-line-height: 1.95;
+  --reader-hidden-line-height: 1.65;
+}
+
+.reader-spacing-relaxed {
+  --reader-line-height: 2.75;
+  --reader-hidden-line-height: 2.15;
+}
+
 .pinyin-text {
   margin: 0;
   font-family: "Noto Serif SC", "Songti SC", SimSun, serif;
-  font-size: clamp(1.55rem, 2.8vw, 2.05rem);
-  line-height: 2.35;
+  font-size: var(--reader-font-size);
+  line-height: var(--reader-line-height);
   word-break: break-word;
+  transition: font-size 140ms ease, line-height 140ms ease;
 }
 
 ruby {
@@ -208,7 +285,7 @@ rt {
 }
 
 .pinyin-hidden {
-  line-height: 1.9;
+  line-height: var(--reader-hidden-line-height);
 }
 
 .non-chinese {
@@ -260,5 +337,16 @@ footer a {
 
   .reader-output {
     min-height: 260px;
+  }
+}
+
+@media (max-width: 520px) {
+  .reader-controls {
+    gap: 12px;
+  }
+
+  .control-group {
+    width: 100%;
+    justify-content: space-between;
   }
 }
