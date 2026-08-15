@@ -248,16 +248,27 @@ function App() {
                       {selectedPolyphonic.character}
                     </div>
                     <div className="polyphonic-detail-content">
-                      {selectedPolyphonic.context && (
-                        <div className="alternative-pronunciations">
-                          <span className="detail-label">所在词语</span>
-                          <div className="pronunciation-list">
-                            <span className="pronunciation-chip">
-                              {selectedPolyphonic.context.word} ·{' '}
-                              {selectedPolyphonic.context.pinyin}
-                            </span>
+                      {selectedPolyphonic.contextState === 'loading' && (
+                        <p className="detail-note">正在加载现代汉语词典…</p>
+                      )}
+
+                      {selectedPolyphonic.contextState === 'ready' &&
+                        selectedPolyphonic.context && (
+                          <div className="alternative-pronunciations">
+                            <span className="detail-label">所在词语</span>
+                            <div className="pronunciation-list">
+                              <span className="pronunciation-chip">
+                                {selectedPolyphonic.context.word} ·{' '}
+                                {selectedPolyphonic.context.pinyin}
+                              </span>
+                            </div>
                           </div>
-                        </div>
+                        )}
+
+                      {selectedPolyphonic.contextState === 'error' && (
+                        <p className="detail-note">
+                          词典加载失败，暂时只显示基础读音。
+                        </p>
                       )}
 
                       {speechSupported && (
@@ -287,9 +298,11 @@ function App() {
                           ))}
                         </div>
                       </div>
-                      <p className="detail-note">
-                        词语边界和当前读音使用现代汉语扩展词典结合整句上下文识别。
-                      </p>
+                      {selectedPolyphonic.contextState === 'ready' && (
+                        <p className="detail-note">
+                          词语边界使用现代汉语扩展词典结合整句上下文识别。
+                        </p>
+                      )}
                     </div>
                   </aside>
                 )}
